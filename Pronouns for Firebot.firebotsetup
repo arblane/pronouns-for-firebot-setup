@@ -1,1 +1,777 @@
-{"name":"Pronouns for Firebot","description":"Pronouns from pronouns.alejo.io for use in Firebot","version":1,"author":"arblane","components":{"commands":[{"active":true,"simple":false,"sendCooldownMessage":true,"cooldownMessage":"This command is still on cooldown for: {timeLeft}","cooldown":{},"effects":{"id":"3c31f934-b685-49fd-a4b6-50efd3e68b19","list":[{"id":"82f0af50-cf23-11ed-877c-9d7bc0d2120e","type":"firebot:chat","active":true,"chatter":"Streamer","message":"Want to be pronoun-aware or help me address you correctly? Set your pronouns here: https://pronouns.alejo.io/"}]},"restrictionData":{"restrictions":[],"mode":"all","sendFailMessage":true,"failMessage":"Sorry, you cannot use this command because: {reason}"},"aliases":[],"sortTags":[],"treatQuotedTextAsSingleArg":false,"trigger":"!pronouns","ignoreBot":true,"id":"86ba6180-cf23-11ed-877c-9d7bc0d2120e","createdBy":"arblane","createdAt":"2023-03-30T13:51:40-04:00","count":0,"description":"Pop the Pronouns link into chat","lastEditBy":"arblane","lastEditAt":"2023-04-02T13:53:42-04:00"}],"counters":[],"currencies":[],"effectQueues":[],"events":[],"eventGroups":[],"hotkeys":[],"presetEffectLists":[{"name":"Fetch Pronoun","effects":{"list":[{"id":"3b0ca810-e14d-11ed-b6f8-e1ee0e5ae094","type":"firebot:conditional-effects","active":true,"ifs":[{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is not","value":null,"leftSideValue":"$userMetadata[$user, pronouns]"}]},"effectData":{"list":[{"id":"ed8823c0-e157-11ed-b6f8-e1ee0e5ae094","type":"firebot:log-message","active":true,"logLevel":"Info","logMessage":"TEST not set"},{"id":"8e6be341-e14d-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":0,"name":"fetchPronounUrl","variableData":"https://pronouns.alejo.io/api/users/$presetListArg[user]","effectLabel":"fetchPronounUrl"},{"id":"8e6be342-e14d-11ed-b6f8-e1ee0e5ae094","type":"firebot:http-request","active":true,"headers":[],"options":{},"url":"$customVariable[fetchPronounUrl]","method":"GET"},{"id":"8e6be343-e14d-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":15,"name":"alejoPronounJson","variableData":"$effectOutput[httpResponse]","effectLabel":"alejoPronounJson"},{"id":"5b322250-e157-11ed-b6f8-e1ee0e5ae094","type":"firebot:conditional-effects","active":true,"ifs":[{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is not","value":null,"leftSideValue":"$customVariable[alejoPronounJson]","rightSideValue":"[]"}]},"effectData":{"list":[{"id":"026357b0-e158-11ed-b6f8-e1ee0e5ae094","type":"firebot:log-message","active":true,"logLevel":"Info","logMessage":"TEST alejoPronouns are not null"},{"id":"5de904f3-e157-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"alejoPronouns","variableData":"$customVariable[alejoPronounJson,0.pronoun_id]","propertyPath":"","effectLabel":"alejoPronouns"},{"id":"5de904f4-e157-11ed-b6f8-e1ee0e5ae094","type":"firebot:run-effect-list","active":true,"listType":"preset","presetListArgs":{},"effectList":{"list":[],"id":"8e3ccbb0-e147-11ed-b6f8-e1ee0e5ae094"},"presetListId":"5dbace30-e145-11ed-b6f8-e1ee0e5ae094","effectLabel":"Parse the pronoun Id"},{"id":"5de904f5-e157-11ed-b6f8-e1ee0e5ae094","type":"firebot:set-user-metadata","active":true,"username":"$user","key":"pronouns","data":"$customVariable[pronouns]"},{"id":"5de904f6-e157-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"plural pronoun","variableData":"$lowercase[$customVariable[pronouns, 0.pronoun_plural]]","effectLabel":"plural pronoun"},{"id":"5de904f7-e157-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"singular pronoun","variableData":"$lowercase[$customVariable[pronouns, 0.pronoun_singular]]","effectLabel":"singular pronoun"}],"id":"5b36b630-e157-11ed-b6f8-e1ee0e5ae094"}}],"otherwiseEffectData":{"list":[{"id":"67178640-e158-11ed-b6f8-e1ee0e5ae094","type":"firebot:log-message","active":true,"logLevel":"Info","logMessage":"TEST alejo pronouns are null"},{"id":"98e8ee80-e157-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"plural pronoun","variableData":"them","effectLabel":"plural pronoun"},{"id":"9c21ab50-e157-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"singular pronoun","variableData":"they","effectLabel":"singular pronoun"}],"id":"5b34e170-e157-11ed-b6f8-e1ee0e5ae094"},"otherwiseLabel":"default They/Them"}],"id":"3b100370-e14d-11ed-b6f8-e1ee0e5ae094"},"label":"Pronouns Not Yet Set"}],"otherwiseEffectData":{"list":[{"id":"5c352980-e14e-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"oPronouns","variableData":"$userMetadata[$presetListArg[user], pronouns]","effectLabel":"oPronouns"},{"id":"7354cf30-e14e-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"plural pronoun","variableData":"$lowercase[$customVariable[oPronouns, 0.pronoun_plural]]","effectLabel":"plural pronoun"},{"id":"c1e1c1d0-e14e-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"singular pronoun","variableData":"$lowercase[$customVariable[oPronouns, 0.pronoun_singular]]","effectLabel":"singular pronoun"}],"id":"3b0ecaf0-e14d-11ed-b6f8-e1ee0e5ae094"},"otherwiseLabel":"Set, grab from MetaData"}],"id":"bf2bcf90-cff5-11ed-a52f-5bdbbc96a943"},"args":[{"name":"user"}],"sortTags":["11a109db-1456-4d94-b2b1-401b605556b0"],"id":"bf2ba880-cff5-11ed-a52f-5bdbbc96a943"},{"name":"Parse Pronouns","effects":{"list":[{"id":"62d8ecd0-e145-11ed-b6f8-e1ee0e5ae094","type":"firebot:conditional-effects","active":true,"ifs":[{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"aeaer"}]},"effectData":{"list":[{"id":"c310c260-e142-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"Ae\",\"pronoun_plural\":\"Aer\"}]"}],"id":"b606bf20-e142-11ed-b6f8-e1ee0e5ae094"},"label":"Ae/Aer"},{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"any"}]},"effectData":{"list":[{"id":"e456f310-e145-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"Any\",\"pronoun_plural\":\"Any\"}]"}],"id":"cb818710-e145-11ed-b6f8-e1ee0e5ae094"},"label":"Any"},{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"eem"}]},"effectData":{"list":[{"id":"0f6dd550-e146-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"E\",\"pronoun_plural\":\"Em\"}]"}],"id":"fb711a80-e145-11ed-b6f8-e1ee0e5ae094"},"label":"E/Em"},{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"faefaer"}]},"effectData":{"list":[{"id":"295e9c60-e146-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"Fae\",\"pronoun_plural\":\"Faer\"}]"}],"id":"17e223d0-e146-11ed-b6f8-e1ee0e5ae094"},"label":"Fae/Faer"},{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"hehim"}]},"effectData":{"list":[{"id":"573784d0-e146-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"He\",\"pronoun_plural\":\"Him\"}]"}],"id":"45caeac0-e146-11ed-b6f8-e1ee0e5ae094"},"label":"He/Him"},{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"heshe"}]},"effectData":{"list":[{"id":"6e45ec70-e146-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"He\",\"pronoun_plural\":\"She\"}]"}],"id":"5d1c00b0-e146-11ed-b6f8-e1ee0e5ae094"},"label":"He/She"},{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"hethem"}]},"effectData":{"list":[{"id":"8ff4aa50-e146-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"He\",\"pronoun_plural\":\"They\"}]"}],"id":"75a21430-e146-11ed-b6f8-e1ee0e5ae094"},"label":"He/They"},{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"itits"}]},"effectData":{"list":[{"id":"ad37f7c0-e146-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"It\",\"pronoun_plural\":\"Its\"}]"}],"id":"95b104c0-e146-11ed-b6f8-e1ee0e5ae094"},"label":"It/Its"},{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"other"}]},"effectData":{"list":[{"id":"c4fd5350-e146-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"Other\",\"pronoun_plural\":\"Other\"}]"}],"id":"b3bd2070-e146-11ed-b6f8-e1ee0e5ae094"},"label":"Other"},{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"perper"}]},"effectData":{"list":[{"id":"dc358a10-e146-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"Per\",\"pronoun_plural\":\"Per\"}]"}],"id":"cb6fb750-e146-11ed-b6f8-e1ee0e5ae094"},"label":"Per/Per"},{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"sheher"}]},"effectData":{"list":[{"id":"00be42f0-e147-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"She\",\"pronoun_plural\":\"Her\"}]"}],"id":"e92accd0-e146-11ed-b6f8-e1ee0e5ae094"},"label":"She/Her"},{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"shethem"}]},"effectData":{"list":[{"id":"17cd1fc0-e147-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"She\",\"pronoun_plural\":\"They\"}]"}],"id":"08231d40-e147-11ed-b6f8-e1ee0e5ae094"},"label":"She/They"},{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"theythem"}]},"effectData":{"list":[{"id":"2f5af090-e147-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"They\",\"pronoun_plural\":\"Them\"}]"}],"id":"1f6bcec0-e147-11ed-b6f8-e1ee0e5ae094"},"label":"They/Them"},{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"vever"}]},"effectData":{"list":[{"id":"45242e00-e147-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"Ve\",\"pronoun_plural\":\"Ver\"}]"}],"id":"35e681e0-e147-11ed-b6f8-e1ee0e5ae094"},"label":"Ve/Ver"},{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"xexem"}]},"effectData":{"list":[{"id":"5a06b4f0-e147-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"Xe\",\"pronoun_plural\":\"Xem\"}]"}],"id":"4cb632d0-e147-11ed-b6f8-e1ee0e5ae094"},"label":"Xe/Xem"},{"conditionData":{"mode":"exclusive","conditions":[{"type":"firebot:custom","comparisonType":"is","value":null,"leftSideValue":"$customVariable[alejoPronouns]","rightSideValue":"ziehir"}]},"effectData":{"list":[{"id":"7266a2d0-e147-11ed-b6f8-e1ee0e5ae094","type":"firebot:customvariable","active":true,"ttl":5,"name":"pronouns","variableData":"[{\"pronoun_singular\":\"Zie\",\"pronoun_plural\":\"Hir\"}]"}],"id":"60c8e6a0-e147-11ed-b6f8-e1ee0e5ae094"},"label":"Zie/Hir"}],"otherwiseEffectData":{"list":[],"id":"b6053880-e142-11ed-b6f8-e1ee0e5ae094"}}],"id":"5dbace31-e145-11ed-b6f8-e1ee0e5ae094"},"args":[],"sortTags":["11a109db-1456-4d94-b2b1-401b605556b0"],"id":"5dbace30-e145-11ed-b6f8-e1ee0e5ae094"}],"timers":[{"active":true,"onlyWhenLive":true,"name":"Pronouns_tmr","interval":1800,"requiredChatLines":7,"sortTags":[],"effects":{"list":[{"id":"92992b30-cf23-11ed-877c-9d7bc0d2120e","type":"firebot:runcommand","active":true,"commandType":"custom","commandId":"86ba6180-cf23-11ed-877c-9d7bc0d2120e"}],"id":"aa6d17a0-cf21-11ed-877c-9d7bc0d2120e"},"id":"c3953780-cf21-11ed-8a60-f39c2f69f44d"}],"viewerRoles":[],"quickActions":[]},"requireCurrency":false,"importQuestions":[]}
+{
+  "name": "Pronouns for Firebot",
+  "description": "Pronouns from pronouns.alejo.io for use in Firebot",
+  "version": 1,
+  "author": "arblane",
+  "components": {
+    "commands": [
+      {
+        "active": true,
+        "simple": false,
+        "sendCooldownMessage": true,
+        "cooldownMessage": "This command is still on cooldown for: {timeLeft}",
+        "cooldown": {},
+        "effects": {
+          "id": "3c31f934-b685-49fd-a4b6-50efd3e68b19",
+          "list": [
+            {
+              "id": "82f0af50-cf23-11ed-877c-9d7bc0d2120e",
+              "type": "firebot:chat",
+              "active": true,
+              "chatter": "Streamer",
+              "message": "Want to be pronoun-aware or help me address you correctly? Set your pronouns here: https://pronouns.alejo.io/"
+            }
+          ]
+        },
+        "restrictionData": {
+          "restrictions": [],
+          "mode": "all",
+          "sendFailMessage": true,
+          "failMessage": "Sorry, you cannot use this command because: {reason}"
+        },
+        "aliases": [],
+        "sortTags": [],
+        "treatQuotedTextAsSingleArg": false,
+        "trigger": "!pronouns",
+        "ignoreBot": true,
+        "id": "86ba6180-cf23-11ed-877c-9d7bc0d2120e",
+        "createdBy": "arblane",
+        "createdAt": "2023-03-30T13:51:40-04:00",
+        "count": 0,
+        "description": "Pop the Pronouns link into chat",
+        "lastEditBy": "arblane",
+        "lastEditAt": "2023-04-02T13:53:42-04:00"
+      }
+    ],
+    "counters": [],
+    "currencies": [],
+    "effectQueues": [],
+    "events": [],
+    "eventGroups": [],
+    "hotkeys": [],
+    "presetEffectLists": [
+      {
+        "name": "Fetch Pronoun",
+        "effects": {
+          "list": [
+            {
+              "id": "3b0ca810-e14d-11ed-b6f8-e1ee0e5ae094",
+              "type": "firebot:conditional-effects",
+              "active": true,
+              "ifs": [
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is not",
+                        "value": null,
+                        "leftSideValue": "$userMetadata[$user, pronouns]"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "ed8823c0-e157-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:log-message",
+                        "active": true,
+                        "logLevel": "Info",
+                        "logMessage": "TEST not set"
+                      },
+                      {
+                        "id": "8e6be341-e14d-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 0,
+                        "name": "fetchPronounUrl",
+                        "variableData": "https://pronouns.alejo.io/api/users/$presetListArg[user]",
+                        "effectLabel": "fetchPronounUrl"
+                      },
+                      {
+                        "id": "8e6be342-e14d-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:http-request",
+                        "active": true,
+                        "headers": [],
+                        "options": {},
+                        "url": "$customVariable[fetchPronounUrl]",
+                        "method": "GET"
+                      },
+                      {
+                        "id": "8e6be343-e14d-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 15,
+                        "name": "alejoPronounJson",
+                        "variableData": "$effectOutput[httpResponse]",
+                        "effectLabel": "alejoPronounJson"
+                      },
+                      {
+                        "id": "5b322250-e157-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:conditional-effects",
+                        "active": true,
+                        "ifs": [
+                          {
+                            "conditionData": {
+                              "mode": "exclusive",
+                              "conditions": [
+                                {
+                                  "type": "firebot:custom",
+                                  "comparisonType": "is not",
+                                  "value": null,
+                                  "leftSideValue": "$customVariable[alejoPronounJson]",
+                                  "rightSideValue": "[]"
+                                }
+                              ]
+                            },
+                            "effectData": {
+                              "list": [
+                                {
+                                  "id": "026357b0-e158-11ed-b6f8-e1ee0e5ae094",
+                                  "type": "firebot:log-message",
+                                  "active": true,
+                                  "logLevel": "Info",
+                                  "logMessage": "TEST alejoPronouns are not null"
+                                },
+                                {
+                                  "id": "5de904f3-e157-11ed-b6f8-e1ee0e5ae094",
+                                  "type": "firebot:customvariable",
+                                  "active": true,
+                                  "ttl": 5,
+                                  "name": "alejoPronouns",
+                                  "variableData": "$customVariable[alejoPronounJson,0.pronoun_id]",
+                                  "propertyPath": "",
+                                  "effectLabel": "alejoPronouns"
+                                },
+                                {
+                                  "id": "5de904f4-e157-11ed-b6f8-e1ee0e5ae094",
+                                  "type": "firebot:run-effect-list",
+                                  "active": true,
+                                  "listType": "preset",
+                                  "presetListArgs": {},
+                                  "effectList": {
+                                    "list": [],
+                                    "id": "8e3ccbb0-e147-11ed-b6f8-e1ee0e5ae094"
+                                  },
+                                  "presetListId": "5dbace30-e145-11ed-b6f8-e1ee0e5ae094",
+                                  "effectLabel": "Parse the pronoun Id"
+                                },
+                                {
+                                  "id": "5de904f5-e157-11ed-b6f8-e1ee0e5ae094",
+                                  "type": "firebot:set-user-metadata",
+                                  "active": true,
+                                  "username": "$user",
+                                  "key": "pronouns",
+                                  "data": "$customVariable[pronouns]"
+                                },
+                                {
+                                  "id": "5de904f6-e157-11ed-b6f8-e1ee0e5ae094",
+                                  "type": "firebot:customvariable",
+                                  "active": true,
+                                  "ttl": 5,
+                                  "name": "plural pronoun",
+                                  "variableData": "$lowercase[$customVariable[pronouns, 0.pronoun_plural]]",
+                                  "effectLabel": "plural pronoun"
+                                },
+                                {
+                                  "id": "5de904f7-e157-11ed-b6f8-e1ee0e5ae094",
+                                  "type": "firebot:customvariable",
+                                  "active": true,
+                                  "ttl": 5,
+                                  "name": "singular pronoun",
+                                  "variableData": "$lowercase[$customVariable[pronouns, 0.pronoun_singular]]",
+                                  "effectLabel": "singular pronoun"
+                                }
+                              ],
+                              "id": "5b36b630-e157-11ed-b6f8-e1ee0e5ae094"
+                            }
+                          }
+                        ],
+                        "otherwiseEffectData": {
+                          "list": [
+                            {
+                              "id": "67178640-e158-11ed-b6f8-e1ee0e5ae094",
+                              "type": "firebot:log-message",
+                              "active": true,
+                              "logLevel": "Info",
+                              "logMessage": "TEST alejo pronouns are null"
+                            },
+                            {
+                              "id": "98e8ee80-e157-11ed-b6f8-e1ee0e5ae094",
+                              "type": "firebot:customvariable",
+                              "active": true,
+                              "ttl": 5,
+                              "name": "plural pronoun",
+                              "variableData": "them",
+                              "effectLabel": "plural pronoun"
+                            },
+                            {
+                              "id": "9c21ab50-e157-11ed-b6f8-e1ee0e5ae094",
+                              "type": "firebot:customvariable",
+                              "active": true,
+                              "ttl": 5,
+                              "name": "singular pronoun",
+                              "variableData": "they",
+                              "effectLabel": "singular pronoun"
+                            }
+                          ],
+                          "id": "5b34e170-e157-11ed-b6f8-e1ee0e5ae094"
+                        },
+                        "otherwiseLabel": "default They/Them"
+                      }
+                    ],
+                    "id": "3b100370-e14d-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "Pronouns Not Yet Set"
+                }
+              ],
+              "otherwiseEffectData": {
+                "list": [
+                  {
+                    "id": "5c352980-e14e-11ed-b6f8-e1ee0e5ae094",
+                    "type": "firebot:customvariable",
+                    "active": true,
+                    "ttl": 5,
+                    "name": "oPronouns",
+                    "variableData": "$userMetadata[$presetListArg[user], pronouns]",
+                    "effectLabel": "oPronouns"
+                  },
+                  {
+                    "id": "7354cf30-e14e-11ed-b6f8-e1ee0e5ae094",
+                    "type": "firebot:customvariable",
+                    "active": true,
+                    "ttl": 5,
+                    "name": "plural pronoun",
+                    "variableData": "$lowercase[$customVariable[oPronouns, 0.pronoun_plural]]",
+                    "effectLabel": "plural pronoun"
+                  },
+                  {
+                    "id": "c1e1c1d0-e14e-11ed-b6f8-e1ee0e5ae094",
+                    "type": "firebot:customvariable",
+                    "active": true,
+                    "ttl": 5,
+                    "name": "singular pronoun",
+                    "variableData": "$lowercase[$customVariable[oPronouns, 0.pronoun_singular]]",
+                    "effectLabel": "singular pronoun"
+                  }
+                ],
+                "id": "3b0ecaf0-e14d-11ed-b6f8-e1ee0e5ae094"
+              },
+              "otherwiseLabel": "Set, grab from MetaData"
+            }
+          ],
+          "id": "bf2bcf90-cff5-11ed-a52f-5bdbbc96a943"
+        },
+        "args": [
+          {
+            "name": "user"
+          }
+        ],
+        "sortTags": [
+          "11a109db-1456-4d94-b2b1-401b605556b0"
+        ],
+        "id": "bf2ba880-cff5-11ed-a52f-5bdbbc96a943"
+      },
+      {
+        "name": "Parse Pronouns",
+        "effects": {
+          "list": [
+            {
+              "id": "62d8ecd0-e145-11ed-b6f8-e1ee0e5ae094",
+              "type": "firebot:conditional-effects",
+              "active": true,
+              "ifs": [
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "aeaer"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "c310c260-e142-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"Ae\",\"pronoun_plural\":\"Aer\"}]"
+                      }
+                    ],
+                    "id": "b606bf20-e142-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "Ae/Aer"
+                },
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "any"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "e456f310-e145-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"Any\",\"pronoun_plural\":\"Any\"}]"
+                      }
+                    ],
+                    "id": "cb818710-e145-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "Any"
+                },
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "eem"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "0f6dd550-e146-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"E\",\"pronoun_plural\":\"Em\"}]"
+                      }
+                    ],
+                    "id": "fb711a80-e145-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "E/Em"
+                },
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "faefaer"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "295e9c60-e146-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"Fae\",\"pronoun_plural\":\"Faer\"}]"
+                      }
+                    ],
+                    "id": "17e223d0-e146-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "Fae/Faer"
+                },
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "hehim"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "573784d0-e146-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"He\",\"pronoun_plural\":\"Him\"}]"
+                      }
+                    ],
+                    "id": "45caeac0-e146-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "He/Him"
+                },
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "heshe"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "6e45ec70-e146-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"He\",\"pronoun_plural\":\"She\"}]"
+                      }
+                    ],
+                    "id": "5d1c00b0-e146-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "He/She"
+                },
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "hethem"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "8ff4aa50-e146-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"He\",\"pronoun_plural\":\"They\"}]"
+                      }
+                    ],
+                    "id": "75a21430-e146-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "He/They"
+                },
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "itits"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "ad37f7c0-e146-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"It\",\"pronoun_plural\":\"Its\"}]"
+                      }
+                    ],
+                    "id": "95b104c0-e146-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "It/Its"
+                },
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "other"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "c4fd5350-e146-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"Other\",\"pronoun_plural\":\"Other\"}]"
+                      }
+                    ],
+                    "id": "b3bd2070-e146-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "Other"
+                },
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "perper"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "dc358a10-e146-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"Per\",\"pronoun_plural\":\"Per\"}]"
+                      }
+                    ],
+                    "id": "cb6fb750-e146-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "Per/Per"
+                },
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "sheher"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "00be42f0-e147-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"She\",\"pronoun_plural\":\"Her\"}]"
+                      }
+                    ],
+                    "id": "e92accd0-e146-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "She/Her"
+                },
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "shethem"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "17cd1fc0-e147-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"She\",\"pronoun_plural\":\"They\"}]"
+                      }
+                    ],
+                    "id": "08231d40-e147-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "She/They"
+                },
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "theythem"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "2f5af090-e147-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"They\",\"pronoun_plural\":\"Them\"}]"
+                      }
+                    ],
+                    "id": "1f6bcec0-e147-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "They/Them"
+                },
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "vever"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "45242e00-e147-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"Ve\",\"pronoun_plural\":\"Ver\"}]"
+                      }
+                    ],
+                    "id": "35e681e0-e147-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "Ve/Ver"
+                },
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "xexem"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "5a06b4f0-e147-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"Xe\",\"pronoun_plural\":\"Xem\"}]"
+                      }
+                    ],
+                    "id": "4cb632d0-e147-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "Xe/Xem"
+                },
+                {
+                  "conditionData": {
+                    "mode": "exclusive",
+                    "conditions": [
+                      {
+                        "type": "firebot:custom",
+                        "comparisonType": "is",
+                        "value": null,
+                        "leftSideValue": "$customVariable[alejoPronouns]",
+                        "rightSideValue": "ziehir"
+                      }
+                    ]
+                  },
+                  "effectData": {
+                    "list": [
+                      {
+                        "id": "7266a2d0-e147-11ed-b6f8-e1ee0e5ae094",
+                        "type": "firebot:customvariable",
+                        "active": true,
+                        "ttl": 5,
+                        "name": "pronouns",
+                        "variableData": "[{\"pronoun_singular\":\"Zie\",\"pronoun_plural\":\"Hir\"}]"
+                      }
+                    ],
+                    "id": "60c8e6a0-e147-11ed-b6f8-e1ee0e5ae094"
+                  },
+                  "label": "Zie/Hir"
+                }
+              ],
+              "otherwiseEffectData": {
+                "list": [],
+                "id": "b6053880-e142-11ed-b6f8-e1ee0e5ae094"
+              }
+            }
+          ],
+          "id": "5dbace31-e145-11ed-b6f8-e1ee0e5ae094"
+        },
+        "args": [],
+        "sortTags": [
+          "11a109db-1456-4d94-b2b1-401b605556b0"
+        ],
+        "id": "5dbace30-e145-11ed-b6f8-e1ee0e5ae094"
+      }
+    ],
+    "timers": [
+      {
+        "active": true,
+        "onlyWhenLive": true,
+        "name": "Pronouns_tmr",
+        "interval": 1800,
+        "requiredChatLines": 7,
+        "sortTags": [],
+        "effects": {
+          "list": [
+            {
+              "id": "92992b30-cf23-11ed-877c-9d7bc0d2120e",
+              "type": "firebot:runcommand",
+              "active": true,
+              "commandType": "custom",
+              "commandId": "86ba6180-cf23-11ed-877c-9d7bc0d2120e"
+            }
+          ],
+          "id": "aa6d17a0-cf21-11ed-877c-9d7bc0d2120e"
+        },
+        "id": "c3953780-cf21-11ed-8a60-f39c2f69f44d"
+      }
+    ],
+    "viewerRoles": [],
+    "quickActions": []
+  },
+  "requireCurrency": false,
+  "importQuestions": []
+}
